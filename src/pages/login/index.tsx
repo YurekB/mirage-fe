@@ -2,31 +2,44 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logIn, logOut } from "../../redux/login";
-import { LoginPageContainer } from "./styles";
+import sendLoginDetails from "../../utils/sendLoginDetails";
+import { InnerCont, LoginPageContainer } from "./styles";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-
-  const { loggedIn } = useSelector((state: any) => state.loggedIn || {});
-
-  useEffect(() => {
-    setUserLoggedIn(loggedIn);
-  }, [loggedIn]);
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
 
   const logInFunc = () => {
-    dispatch(logIn());
-    navigate("/");
+    sendLoginDetails(values);
+    // dispatch(logIn());
+    // navigate("/");
+  };
+
+  const onChange = (e: any) => {
+    setValues({ ...values, [e.target.id]: e.target.value });
   };
 
   return (
     <LoginPageContainer>
-      <h1 onClick={() => navigate("/")}>HOME</h1>
-      <p>{`${userLoggedIn}`}</p>
-      <button onClick={() => dispatch(logOut())}>Log out</button>
-      <button onClick={logInFunc}>Log in</button>
+      <InnerCont>
+        <h1 onClick={() => navigate("/")}>Log In</h1>
+        <div>
+          <label>Email</label>
+          <input type="text" onChange={onChange} id="email" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" onChange={onChange} id="password" />
+        </div>
+        <p>Register</p>
+
+        <button onClick={logInFunc}>Log in</button>
+      </InnerCont>
     </LoginPageContainer>
   );
 };
