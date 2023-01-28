@@ -26,8 +26,8 @@ export const InnerCont = styled.div`
     }
   }
 
-  div:nth-of-type(3) {
-    height: 0px;
+  div:nth-child(6) {
+    height: 30px;
   }
 
   input {

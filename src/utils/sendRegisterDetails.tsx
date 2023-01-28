@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const sendLoginDetails = async (e: object) => {
+const sendRegisterDetails = async (e: object) => {
   const url = process.env.REACT_APP_API;
 
   let sendDetails = await axios({
     method: "post",
-    url: `${url}/login`,
+    url: `${url}/register`,
     data: e,
   });
 
   return sendDetails;
 };
 
-export default sendLoginDetails;
+export default sendRegisterDetails;

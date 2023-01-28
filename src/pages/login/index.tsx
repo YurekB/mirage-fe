@@ -1,23 +1,43 @@
+import { Notify } from "notiflix";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { changeLoggedInUser } from "../../redux/loggedInUser";
 import { logIn, logOut } from "../../redux/login";
 import sendLoginDetails from "../../utils/sendLoginDetails";
-import { InnerCont, LoginPageContainer } from "./styles";
+import { ErrorText, InnerCont, LoginPageContainer } from "./styles";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location, "LOCATION");
+  console.log(location.state?.email, "LOCATION STATE");
+  // const { email } = state;
+
+  const [displayError, setDisplayError] = useState(false);
 
   const [values, setValues] = useState({
-    email: "",
+    email: location.state?.email === undefined ? "" : location.state.email,
     password: "",
   });
 
   const logInFunc = () => {
-    sendLoginDetails(values);
-    // dispatch(logIn());
-    // navigate("/");
+    sendLoginDetails(values)
+      .then((res) => {
+        console.log(res.data.msg);
+        dispatch(changeLoggedInUser(values.email));
+        if (res.data.result === "error") {
+          Notify.failure("Incorrect email/password");
+          setDisplayError(true);
+        } else {
+          dispatch(logIn());
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err, "ERROR");
+      });
   };
 
   const onChange = (e: any) => {
@@ -27,18 +47,27 @@ const LoginPage = () => {
   return (
     <LoginPageContainer>
       <InnerCont>
-        <h1 onClick={() => navigate("/")}>Log In</h1>
+        <h1 onClick={() => navigate("/")}>Log in</h1>
         <div>
           <label>Email</label>
-          <input type="text" onChange={onChange} id="email" />
+          <input
+            type="text"
+            onChange={onChange}
+            id="email"
+            value={values.email}
+          />
         </div>
         <div>
           <label>Password</label>
           <input type="password" onChange={onChange} id="password" />
         </div>
-        <p>Register</p>
-
-        <button onClick={logInFunc}>Log in</button>
+        <div>
+          <ErrorText show={displayError}> Incorrect email / password</ErrorText>
+        </div>
+        <div>
+          <button onClick={logInFunc}>Log in</button>
+          <button onClick={() => navigate("/register")}>Register</button>
+        </div>
       </InnerCont>
     </LoginPageContainer>
   );
