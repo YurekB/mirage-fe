@@ -40,6 +40,9 @@ export const InnerCont = styled.div`
     width: 150px;
     height: 30px;
     margin-bottom: 10px;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 

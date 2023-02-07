@@ -27,7 +27,7 @@ export const InnerCont = styled.div`
   }
 
   div:nth-child(6) {
-    height: 30px;
+    height: 10px;
   }
 
   input {
@@ -40,6 +40,9 @@ export const InnerCont = styled.div`
     width: 150px;
     height: 30px;
     margin-bottom: 10px;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 

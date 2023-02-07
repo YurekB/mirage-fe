@@ -27,10 +27,11 @@ const RegisterPage = () => {
   const createAccount = () => {
     if (Object.values(values).includes("")) {
       setDisplayError(true);
+    } else if (!values.email.includes("@") || !values.email.includes(".")) {
+      setErrorMsg("Please make sure email is valid");
+      setDisplayError(true);
     } else {
       sendRegisterDetails(values).then((res) => {
-        console.log(res.data, "RES DATA");
-
         if (res.data.msg === "EmailUsed") {
           setErrorMsg("Email has already been used");
           setDisplayError(true);
@@ -47,14 +48,6 @@ const RegisterPage = () => {
       <InnerCont>
         <h1 onClick={() => navigate("/")}>Register</h1>
         <div>
-          <label>Email</label>
-          <input type="text" onChange={onChange} id="email" />
-        </div>
-        <div>
-          <label>Password</label>
-          <input type="password" onChange={onChange} id="password" />
-        </div>
-        <div>
           <label>First Name</label>
           <input type="text" onChange={onChange} id="firstName" />
         </div>
@@ -63,10 +56,20 @@ const RegisterPage = () => {
           <input type="text" onChange={onChange} id="lastName" />
         </div>
         <div>
+          <label>Email</label>
+          <input type="text" onChange={onChange} id="email" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" onChange={onChange} id="password" />
+        </div>
+
+        <div>
           <ErrorText show={displayError}>{errorMsg}</ErrorText>
         </div>
         <div>
           <button onClick={createAccount}>Create Account</button>
+          <button onClick={() => navigate("/login")}>Login</button>
         </div>
       </InnerCont>
     </LoginPageContainer>

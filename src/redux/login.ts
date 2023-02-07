@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type initialState = {
+type initialStateObj = {
   loggedIn: boolean;
 };
 
-const initialState: initialState = {
+const initialState: initialStateObj = {
   loggedIn: false,
 };
 

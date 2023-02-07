@@ -2,6 +2,7 @@ import { Notify } from "notiflix";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../../layout/header";
 import { changeLoggedInUser } from "../../redux/loggedInUser";
 import { logIn, logOut } from "../../redux/login";
 import sendLoginDetails from "../../utils/sendLoginDetails";
@@ -11,8 +12,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location, "LOCATION");
-  console.log(location.state?.email, "LOCATION STATE");
+
   // const { email } = state;
 
   const [displayError, setDisplayError] = useState(false);
@@ -25,7 +25,6 @@ const LoginPage = () => {
   const logInFunc = () => {
     sendLoginDetails(values)
       .then((res) => {
-        console.log(res.data.msg);
         dispatch(changeLoggedInUser(values.email));
         if (res.data.result === "error") {
           Notify.failure("Incorrect email/password");

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type initialState = {
+type initialStateObj = {
   loggedInUser: string;
 };
 
-const initialState: initialState = {
+const initialState: initialStateObj = {
   loggedInUser: "",
 };
 

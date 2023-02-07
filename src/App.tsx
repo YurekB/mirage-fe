@@ -5,15 +5,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/landing";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
+import { useSelector } from "react-redux";
+import ProfilePage from "./pages/profile";
+import Header from "./layout/header";
 
 function App() {
+  const { loggedIn } = useSelector((state: any) => state.loggedIn || {});
+
   return (
     <BrowserRouter>
       <div className="App">
+        <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </div>
     </BrowserRouter>
