@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import getUserDetails from "../../utils/getUserDetails";
 import updateDetails from "../../utils/updateDetails";
 import {
@@ -26,6 +27,8 @@ const ProfilePage = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const { loggedInUser } = useSelector(
     (state: any) => state.loggedInUser || {}
@@ -67,6 +70,8 @@ const ProfilePage = () => {
 
   const cancelFunc = () => {
     setLocked(true);
+    setBtnText("Edit");
+
     setDetails(savedDetails);
   };
 
@@ -121,6 +126,9 @@ const ProfilePage = () => {
         </BottomRow>
         <button onClick={toggleEdit}>{btnText}</button>
         {!locked ? <CancelBtn onClick={cancelFunc}>Cancel</CancelBtn> : ""}
+        <button onClick={() => navigate("/change-password")}>
+          Change Password
+        </button>
       </Inner>
     </ProfilePageContainer>
   );
